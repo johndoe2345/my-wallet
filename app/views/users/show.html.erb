@@ -1,0 +1,14 @@
+<%= link_to 'back to home', root_path %>
+<br />
+<h1>Hi, <%= @user.fname %>, here's what's inside of YourWallet:</h1>
+<br />
+<h2>Balance: </h2>
+<br />
+<%= link_to 'Add a card', new_debit_card_path %>
+<br />
+<h2>Cards in YourWallet: </h2>
+<ul>
+	<% @user.debit_cards.each do |card| %>
+		<li><%= card.card_type %> <%= card.card_num %></li>
+	<% end %>
+</ul>

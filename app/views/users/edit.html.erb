@@ -1,0 +1,18 @@
+<%= link_to 'back to home', root_path %>
+<% if current_user and current_user.id.to_i == params[:id].to_i %>
+	<h1>Edit User</h1>
+	<% if @user.errors.full_messages.any? %>
+		<ul>
+			<% @user.errors.full_messages.each do |error_msg| %>
+				<li><%= error_msg %></li>
+			<% end %>
+		</ul>
+	<% end %>
+	<%= render 'form' %>
+	<br />
+	Deactivate your account: 
+	<%= link_to 'delete', user_path(current_user.id), method: :delete, data: {confirm: "Warning: This action cannot be undone. Are you sure?"} %>
+	<br />
+<% else %>
+	<h1>You must be an admin to view this page!</h1>
+<% end %>

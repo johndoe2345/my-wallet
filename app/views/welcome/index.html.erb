@@ -1,0 +1,19 @@
+<% if current_user %>
+	<p>
+	Hello <%= current_user.fname %> | 
+	<%= link_to 'MyWallet', user_path(current_user.id) %>
+		| 
+	<%= link_to 'Profile Settings', edit_user_path(current_user.id) %>
+		| 
+	<%= link_to 'Sign Out', signout_path, method: :delete %></p>
+<% else %>
+	<p><%= form_tag(signin_path, method: :post) do %>
+		<%= label_tag :email %>
+		<%= text_field_tag :email %>
+		<%= label_tag :password %>
+		<%= password_field_tag :password %>
+		<%= submit_tag "Sign In" %> | 
+		<%= link_to 'Sign Up', new_user_path %>
+	<% end %></p>
+<% end %>
+<hr>

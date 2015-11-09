@@ -1,0 +1,14 @@
+<%= link_to 'back to home', root_path %>
+<br />
+<h1>Sign Up</h1>
+<br />
+<h3>All fields are required to sign up.</h3>
+<% if @user.errors.full_messages.any? %>
+	<ul>
+		<% @user.errors.full_messages.each do |error_msg| %>
+			<li><%= error_msg %></li>
+		<% end %>
+	</ul>
+<% end %>
+<%= render 'form' %>
+

@@ -1,0 +1,15 @@
+<%= form_for @card do |n| %>
+	<%= n.label :card_num, 'Debit card number:' %>
+	<%= n.text_field :card_num, :required => true %><br />
+
+	<%= n.label :exp_mon, 'Expiration Month' %>
+	<%= n.number_field :exp_mon, :required => true, placeholder: "2 digit month:" %><br />
+
+	<%= n.label :exp_year, 'Expiration Year' %>
+	<%= n.number_field :exp_year, :required => true, placeholder: "4 digit year:" %><br />
+
+	<%= n.label :balance, 'Balance Made Available to YourWallet:' %>
+	<%= n.number_field :balance, :step => 'any', placeholder: "Dollar amount..." %><br />
+
+	<%= n.submit %>
+<% end %>
