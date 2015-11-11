@@ -11,16 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151111055031) do
+ActiveRecord::Schema.define(version: 20151111181930) do
 
   create_table "debit_cards", force: :cascade do |t|
-    t.string   "card_num",   null: false
-    t.string   "card_type",  null: false
-    t.integer  "exp_mon",    null: false
-    t.integer  "exp_year",   null: false
+    t.string   "card_num",      null: false
+    t.string   "card_type",     null: false
+    t.integer  "exp_mon",       null: false
+    t.integer  "exp_year",      null: false
     t.decimal  "balance"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "card_owner_id"
   end
 
   create_table "user_cards", force: :cascade do |t|

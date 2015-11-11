@@ -18,4 +18,10 @@ class User < ActiveRecord::Base
 		end
   end
 
+  # like the "following?" method from the microblog, this checks if user already has a particular card shared with them.
+  def has_card?(debit_card_id)
+    cards = user_cards.collect {|f| f.debit_card_id}
+    cards.include?(debit_card_id)
+  end
+
 end

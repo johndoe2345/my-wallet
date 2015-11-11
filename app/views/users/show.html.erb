@@ -19,9 +19,10 @@
 					$0.00
 				<% end %></strong> - 
 				<!-- need to fix this logic, doesnt ever get to else. was trying to disable shared users from deleting shared cards, and only allowing them to remove associations -->
-				<% if current_user && card.users.first.id == current_user.id %>
+				<% if current_user && card.card_owner_id == current_user.id %>
 					<%= link_to 'share', debit_card_path(card.id) %> | <%= link_to 'edit or add funds', edit_debit_card_path(card.id) %> | <%= link_to 'delete', debit_card_path(card.id), method: :delete, data: {confirm: "Are you sure you want to delete this card?"} %>
 				<% else %>
+					Shared card from <%= shared_name(card.card_owner_id) %> -
 					<%= link_to 'remove card', remove_card_path(card.id), method: :delete, data: {confirm: "Are you sure you want to remove this #{card.card_type} shared with you?"} %>
 				<% end %></li>
 		<% end %>

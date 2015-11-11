@@ -18,7 +18,7 @@ class DebitCardsController < ApplicationController
 
   def create
     # i removed the merge user id in the line below. because im now using join tables, the concatting method is better suited for this, i think... also, i removed the user_id column in my debit_cards table.
-    @card = DebitCard.new(debit_card_params)
+    @card = DebitCard.new(debit_card_params.merge(card_owner_id: current_user.id))
     if @card.save
       # this line below is what associates new card with current user
       current_user.debit_cards << @card
@@ -43,17 +43,19 @@ class DebitCardsController < ApplicationController
   def share
     @card = DebitCard.find(params[:id])
     @shared_user = User.find_by(email: params[:email])
-    # if card not already shared to that user
+    if !@shared_user.has_card?(@card.id)
       @shared_user.debit_cards << @card
       flash[:notice] = "Card successfully shared with #{@shared_user.full_name}."
       render :show
-    # else
-      # message saying card is already shared
+    else
+      flash[:alert] = "Cannot complete request. You are already sharing this card with #{@shared_user.full_name}."
+      render :show
+    end
   end
 
   # removes the association of a card id from a user
-  def remove(debit_card_id)
-    UserCard.delete(:all, :conditions => ["user_id = ? and debit_card_id = ?", current_user.id, debit_card_id])
+  def remove
+    UserCard.delete(:all, :conditions => ["user_id = ? and debit_card_id = ?", current_user.id, params[:id]])
   end
 
   def destroy

@@ -9,9 +9,11 @@
 								$0.00
 							<% end %></h2>
 <br />
-<h3>Share this card with another user by entering the user's email here:</h3>
-<%= form_tag(share_card_path(@card.id), method: :post) do %>
-	<%= label_tag :email, "Email to share card to:" %>
-	<%= text_field_tag :email, nil, {placeholder: "Another user's email..."} %>
-	<%= submit_tag "Share" %>
+<% if @card.card_owner_id == current_user.id %>
+	<h3>Share this card with another user by entering the user's email here:</h3>
+	<%= form_tag(share_card_path(@card.id), method: :post) do %>
+		<%= label_tag :email, "Email to share card to:" %>
+		<%= text_field_tag :email, nil, {placeholder: "Another user's email..."} %>
+		<%= submit_tag "Share" %>
+	<% end %>
 <% end %>
