@@ -9,6 +9,13 @@
 								$0.00
 							<% end %></h2>
 <br />
+				<% if current_user && @card.card_owner_id == current_user.id %>
+					<%= link_to 'edit or add funds', edit_debit_card_path(@card.id) %> | <%= link_to 'delete', debit_card_path(@card.id), method: :delete, data: {confirm: "Are you sure you want to delete this card?"} %>
+				<% else %>
+					Shared card from <%= shared_name(@card.card_owner_id) %> -
+					<%= link_to 'remove card', remove_card_path(@card.id), method: :delete, data: {confirm: "Are you sure you want to remove this #{@card.card_type} shared with you?"} %>
+				<% end %>
+<br />
 <% if @card.card_owner_id == current_user.id %>
 	<h3>Share this card with another user by entering the user's email here:</h3>
 	<%= form_tag(share_card_path(@card.id), method: :post) do %>
