@@ -28,14 +28,22 @@ class DebitCardsController < ApplicationController
 
   def update
     @card = DebitCard.find(params[:id])
-    @card.update(debit_card_params)
-    redirect_to root_path, notice: "Card successfully updated."
+    if @card.update(debit_card_params)
+      redirect_to root_path, notice: "Card successfully updated."
+    else
+      flash[:alert] = "Something went wrong."
+      render :edit
+    end
   end
 
   def destroy
     @card = DebitCard.find(params[:id])
-    @card.destroy
-    redirect_to root_path, notice: "Card deleted."
+    if @card.destroy
+      redirect_to root_path, notice: "Card deleted."
+    else
+      flash[:alert] = "Something went wrong."
+      render :edit
+    end
   end
 
   private

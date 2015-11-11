@@ -1,0 +1,6 @@
+<%= link_to 'back', url_for(:back) %>
+<br />
+<h2><%= @card.card_type %></h2>
+<h3>Card Number: <%= @card.card_num_display %></h3>
+<h3>Expires: <%= @card.exp_mon %>/<%= @card.exp_year %></h3>
+<h2>Balance: <%= number_to_currency(@card.balance, unit: "$") %></h2>

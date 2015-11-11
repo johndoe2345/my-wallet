@@ -1,0 +1,18 @@
+<%= link_to 'back to home', root_path %>
+<% if current_user and current_user.id.to_i == @card.user.id.to_i %>
+	<h1>Edit or Add Funds to Card</h1>
+	<% if @card.errors.full_messages.any? %>
+		<ul>
+			<% @card.errors.full_messages.each do |error_msg| %>
+				<li><%= error_msg %></li>
+			<% end %>
+		</ul>
+	<% end %>
+	<%= render 'form' %>
+	<br />
+	Delete card: 
+	<%= link_to 'delete', debit_card_path(@card.id), method: :delete, data: {confirm: "Are you sure you want to delete this card?"} %>
+	<br />
+<% else %>
+	<h1>You must be an admin to view this page!</h1>
+<% end %>

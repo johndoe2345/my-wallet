@@ -13,6 +13,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @total_balance = @user.debit_cards.sum(:balance) 
   end
 
   def create

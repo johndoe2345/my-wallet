@@ -2,13 +2,18 @@
 <br />
 <h1>Hi, <%= @user.fname %>, here's what's inside of YourWallet:</h1>
 <br />
-<h2>Balance: </h2>
+<h2>Total Balance: <strong><%= number_to_currency(@total_balance, unit: "$") %></strong></h2>
 <br />
 <%= link_to 'Add a card', new_debit_card_path %>
 <br />
 <h2>Cards in YourWallet: </h2>
 <ul>
 	<% @user.debit_cards.each do |card| %>
-		<li><%= card.card_type %> <%= card.card_num %></li>
+		<li><%= card.card_type %>: <%= link_to card.card_num_display, debit_card_path(card.id) %> | Card Balance: 
+			<strong><% if !card.balance.nil? %>
+				<%= number_to_currency(card.balance, unit: "$") %>
+			<% else %>
+				$0.00
+			<% end %></strong> - <%= link_to 'edit or add funds', edit_debit_card_path(card.id) %> | <%= link_to 'delete', debit_card_path(card.id), method: :delete, data: {confirm: "Are you sure you want to delete this card?"} %></li>
 	<% end %>
 </ul>
