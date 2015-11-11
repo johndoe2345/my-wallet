@@ -1,6 +1,17 @@
-<%= link_to 'back', url_for(:back) %>
+<%= link_to 'back to MyWallet', user_path(current_user.id) %>
 <br />
 <h2><%= @card.card_type %></h2>
 <h3>Card Number: <%= @card.card_num_display %></h3>
 <h3>Expires: <%= @card.exp_mon %>/<%= @card.exp_year %></h3>
-<h2>Balance: <%= number_to_currency(@card.balance, unit: "$") %></h2>
+<h2>Balance: <% if !@card.balance.nil? %>
+								<%= number_to_currency(@card.balance, unit: "$") %>
+							<% else %>
+								$0.00
+							<% end %></h2>
+<br />
+<h3>Share this card with another user by entering the user's email here:</h3>
+<%= form_tag(share_card_path(@card.id), method: :post) do %>
+	<%= label_tag :email, "Email to share card to:" %>
+	<%= text_field_tag :email, nil, {placeholder: "Another user's email..."} %>
+	<%= submit_tag "Share" %>
+<% end %>

@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   resources :users
   resources :debit_cards
 
+  post '/debit_cards/:id/share', to: 'debit_cards#share', as: 'share_card'
+  delete '/debit_cards/:id/remove', to: 'debit_cards#remove', as: 'remove_card'
+
   post '/signin', to: 'sessions#create'
   delete '/signout', to: 'sessions#destroy'
 

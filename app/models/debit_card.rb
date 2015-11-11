@@ -1,6 +1,6 @@
 class DebitCard < ActiveRecord::Base
-	belongs_to :user
-
+	has_many :users, through: :user_cards
+	has_many :user_cards
 	validates_presence_of :card_num, :exp_mon, :exp_year
 	validates_numericality_of :card_num, only_integer: true
 	validates :card_num, length: {in: 15..16}

@@ -1,19 +1,29 @@
 <%= link_to 'back to home', root_path %>
 <br />
-<h1>Hi, <%= @user.fname %>, here's what's inside of YourWallet:</h1>
+<h1><%= @user.fname %>, here's what's inside of YourWallet:</h1>
 <br />
 <h2>Total Balance: <strong><%= number_to_currency(@total_balance, unit: "$") %></strong></h2>
 <br />
 <%= link_to 'Add a card', new_debit_card_path %>
 <br />
 <h2>Cards in YourWallet: </h2>
-<ul>
-	<% @user.debit_cards.each do |card| %>
-		<li><%= card.card_type %>: <%= link_to card.card_num_display, debit_card_path(card.id) %> | Card Balance: 
-			<strong><% if !card.balance.nil? %>
-				<%= number_to_currency(card.balance, unit: "$") %>
-			<% else %>
-				$0.00
-			<% end %></strong> - <%= link_to 'edit or add funds', edit_debit_card_path(card.id) %> | <%= link_to 'delete', debit_card_path(card.id), method: :delete, data: {confirm: "Are you sure you want to delete this card?"} %></li>
-	<% end %>
-</ul>
+<% if @user.debit_cards.first.nil? %>
+	You haven't added any cards yet. To add a card, click the link above.
+<% else %>
+	<ul>
+		<% @user.debit_cards.each do |card| %>
+			<li><%= card.card_type %>: <%= link_to card.card_num_display, debit_card_path(card.id) %> | Card Balance: 
+				<strong><% if !card.balance.nil? %>
+					<%= number_to_currency(card.balance, unit: "$") %>
+				<% else %>
+					$0.00
+				<% end %></strong> - 
+				<!-- need to fix this logic, doesnt ever get to else. was trying to disable shared users from deleting shared cards, and only allowing them to remove associations -->
+				<% if current_user && card.users.first.id == current_user.id %>
+					<%= link_to 'share', debit_card_path(card.id) %> | <%= link_to 'edit or add funds', edit_debit_card_path(card.id) %> | <%= link_to 'delete', debit_card_path(card.id), method: :delete, data: {confirm: "Are you sure you want to delete this card?"} %>
+				<% else %>
+					<%= link_to 'remove card', remove_card_path(card.id), method: :delete, data: {confirm: "Are you sure you want to remove this #{card.card_type} shared with you?"} %>
+				<% end %></li>
+		<% end %>
+	</ul>
+<% end %>

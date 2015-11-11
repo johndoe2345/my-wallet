@@ -1,5 +1,5 @@
 <%= link_to 'back to home', root_path %>
-<% if current_user and current_user.id.to_i == @card.user.id.to_i %>
+<% if current_user and current_user.id.to_i == @card.users.first.id.to_i %>
 	<h1>Edit or Add Funds to Card</h1>
 	<% if @card.errors.full_messages.any? %>
 		<ul>

@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-	has_many :debit_cards, dependent: :destroy
+	has_many :debit_cards, through: :user_cards
+	has_many :user_cards
 	validates_presence_of :email, :password, :fname, :lname
 	validates :password, confirmation: true, length: { minimum: 4 }
 	validates :email, uniqueness: true
