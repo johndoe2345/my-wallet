@@ -1,8 +1,13 @@
 class User < ActiveRecord::Base
 	has_many :debit_cards, through: :user_cards
 	has_many :user_cards
-	validates_presence_of :email, :password, :fname, :lname
-	validates :password, confirmation: true, length: { minimum: 4 }
+
+	has_secure_password
+	validates_confirmation_of :password
+	validates_presence_of :password, on: :create
+	
+	validates_presence_of :email, :fname, :lname
+	validates :password, length: { minimum: 4 }
 	validates :email, uniqueness: true
 	validates :phone, format: { with: /\d{3}-\d{3}-\d{4}/, message: " number needs to be in xxx-xxx-xxxx format"}
 
@@ -14,7 +19,7 @@ class User < ActiveRecord::Base
 		elsif !lname.empty?
 			lname.capitalize
     elsif fname.empty? && lname.empty?
-      username
+      email
 		end
   end
 

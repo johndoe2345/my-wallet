@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
 	
 	def create
 		@user = User.find_by(email: params[:email])
-		if @user and @user.password == params[:password]
+		if @user and @user.authenticate(params[:password])
 			flash[:notice] = "Successfully signed in!"
 			session[:id] = @user.id
 		else

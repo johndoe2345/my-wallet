@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :admin_check, only: [:index]
   def index
   	
   end
@@ -52,5 +53,11 @@ class UsersController < ApplicationController
 	def user_params
 		params.require(:user).permit(:email, :password, :password_confirmation, :phone, :fname, :lname)
 	end
+
+  def admin_check
+    unless current_user && current_user.admin == true
+      redirect_to root_path, alert: "You must be an admin to view that page."
+    end
+  end
 
 end

@@ -1,5 +1,6 @@
 class DebitCardsController < ApplicationController
-
+  before_action :admin_check, only: [:index]
+  
   def index
     
   end
@@ -71,6 +72,12 @@ class DebitCardsController < ApplicationController
 
   def debit_card_params
     params.require(:debit_card).permit(:card_num, :card_type, :exp_mon, :exp_year, :balance)
+  end
+
+  def admin_check
+    unless current_user && current_user.admin == true
+      redirect_to root_path, alert: "You must be an admin to view that page."
+    end
   end
 
 end
